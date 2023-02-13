@@ -3,6 +3,7 @@ import Profile from "./Components/Profile";
 import SignUp from "./Components/SignUp";
 import Layout from './Components/Layout/Layout';
 import { Switch } from "react-router-dom";
+import Details from "./Components/Details";
 
 function App() {
   return (
@@ -14,6 +15,9 @@ function App() {
         <Route path='/profile'>
           <Profile/>
         </Route> 
+        <Route path='/details'>
+          <Details/>
+        </Route>
       </Switch>
     </Layout>
   );
