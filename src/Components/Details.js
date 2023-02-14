@@ -8,7 +8,6 @@ const Details=()=>{
         const enteredName=nameRef.current.value;
         const enteredURL=photoUrlRef.current.value;
         const token=localStorage.getItem('token');
-        console.log(token);
       fetch('https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyCewUWbgztJYjhsb5UEmf3Ni6T_ehpNmXQ',{
             method:'POST',
             body:JSON.stringify(
@@ -26,6 +25,7 @@ const Details=()=>{
           ).then(res=>{
             
             if(res.ok){
+    
     
             }
             else{

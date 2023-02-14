@@ -49,7 +49,6 @@ const SignUp= () => {
           })
         }
       }).then((data)=>{
-        console.log(data.idToken);
         localStorage.setItem("token",data.idToken)
         history.replace('/profile')
       })
