@@ -1,5 +1,5 @@
 import { useState,useRef,useContext } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory ,Link} from 'react-router-dom';
 
 import classes from './SignUp.module.css';
 import AuthContext from './store/Context';
@@ -77,8 +77,15 @@ const SignUp= () => {
         </div>
         <div className={classes.actions}>
           <div>
-          <button>{isLogin ? 'Login' : 'Create Account'}</button>
+          <button>{isLogin ? 'Login' : 'Create Account'}</button><br/>
           &nbsp;
+          </div>
+          <div>
+            <Link to='/Forgot'>
+            {isLogin&&<button type='submit'>Forgot Password</button>}<br/>
+            &nbsp;
+            </Link>
+            
           </div>
           <div>
           <button

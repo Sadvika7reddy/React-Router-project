@@ -4,6 +4,7 @@ import SignUp from "./Components/SignUp";
 import Layout from './Components/Layout/Layout';
 import { Switch } from "react-router-dom";
 import Details from "./Components/Details";
+import Forgot from "./Components/Forgot";
 
 function App() {
   return (
@@ -17,6 +18,9 @@ function App() {
         </Route> 
         <Route path='/details'>
           <Details/>
+        </Route>
+        <Route to='/forgot'>
+          <Forgot/>
         </Route>
       </Switch>
     </Layout>
