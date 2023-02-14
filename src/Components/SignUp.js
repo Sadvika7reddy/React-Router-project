@@ -2,8 +2,10 @@ import { useState,useRef,useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import classes from './SignUp.module.css';
+import AuthContext from './store/Context';
 
 const SignUp= () => {
+  const Authcntx=useContext(AuthContext);
   const history=useHistory();
   const emailInputRef=useRef();
   const passwordInputRef=useRef();
@@ -45,11 +47,11 @@ const SignUp= () => {
         else{
           return res.json().then((data)=>{
             let errorMessage='Authenticated Failed';
-            throw new Error(errormessage);
+            throw new Error(errorMessage);
           })
         }
       }).then((data)=>{
-        localStorage.setItem("token",data.idToken)
+        Authcntx.logIn(data.idToken)
         history.replace('/profile')
       })
       .catch((err)=>{

@@ -1,9 +1,13 @@
 import classes from './Profile.module.css';
-import {Link} from 'react-router-dom'
+import {Link,useHistory} from 'react-router-dom';
+import { useContext } from 'react';
+import AuthContext from './store/Context';
 const Profile=()=>{
+  const Authcntx=useContext(AuthContext);
+  const history=useHistory();
   const EventHandler=()=>{
     const token=localStorage.getItem('token');
-    
+    console.log(token);
       fetch('https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyCewUWbgztJYjhsb5UEmf3Ni6T_ehpNmXQ',{
             method:'POST',
             body:JSON.stringify(
@@ -28,7 +32,8 @@ const Profile=()=>{
               })
             }
           }).then((data)=>{
-            console.log(data);
+            Authcntx.logIn(data.idToken)
+            history.replace('/profile')
           })
           .catch((err)=>{
             alert(err.message)
