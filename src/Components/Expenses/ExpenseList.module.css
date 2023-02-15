@@ -1,0 +1,13 @@
+.list{
+    justify-content: space-between;
+    margin: 1rem;
+    padding: 1rem;
+    border-bottom: 1px solid #ccc;
+    background-color: rgb(18, 182, 227);
+    max-width: 50rem;
+    margin:auto;
+  }
+  .p {
+    border-bottom: 2px solid rgb(38, 47, 170);
+  } 
+  

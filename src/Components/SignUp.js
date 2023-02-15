@@ -6,6 +6,7 @@ import AuthContext from './store/Context';
 
 const SignUp= () => {
   const Authcntx=useContext(AuthContext);
+  const userLoggin=Authcntx.isLoggedIn;
   const history=useHistory();
   const emailInputRef=useRef();
   const passwordInputRef=useRef();
@@ -81,10 +82,11 @@ const SignUp= () => {
           &nbsp;
           </div>
           <div>
-            <Link to='/Forgot'>
+            {!userLoggin&&(<Link to='/Forgot'>
             {isLogin&&<button type='submit'>Forgot Password</button>}<br/>
             &nbsp;
             </Link>
+            )}
             
           </div>
           <div>

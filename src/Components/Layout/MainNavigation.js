@@ -18,7 +18,11 @@ const MainNavigation=()=>{
             {!userLoggin&&(<li>
             <Link to='/'>Login</Link>
              </li>
-    )}
+          )}
+          {userLoggin&&(<li>
+              <Link to='/expenses'>Expenses</Link>
+             </li>)}
+
             {userLoggin&&(<li>
             <Link to='/profile'>Profile</Link>
              </li>
@@ -30,6 +34,7 @@ const MainNavigation=()=>{
             </li>
             )}
              </li>
+             
           </ul>
         </nav>
       </header>
