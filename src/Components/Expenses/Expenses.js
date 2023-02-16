@@ -24,7 +24,7 @@ const Expenses=(props)=>{
         props.onAdd(money,description,category);
         axios.post("https://add-movies-c908f-default-rtdb.firebaseio.com/expences.json",expenceData)
         .then((res)=>{
-            
+           console.log(res.data.name); 
         })
         
         setMoney("");
