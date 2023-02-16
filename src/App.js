@@ -16,7 +16,7 @@ function App() {
       return[...prevstate,{money:Money,description:Description,category:Category,id:Math.random().toString()}]
     }
 
-  )}
+  )} 
   return (
     <Layout>
       <Switch>

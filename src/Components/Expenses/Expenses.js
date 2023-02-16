@@ -1,5 +1,6 @@
 import classes from './Expenses.module.css';
 import {useState} from 'react';
+import axios from 'axios';
 const Expenses=(props)=>{
     const [money,setMoney]=useState('');
     const [description,setDescription]=useState('');
@@ -13,9 +14,19 @@ const Expenses=(props)=>{
     const ExecuteCategory=(event)=>{
         setCategory(event.target.value);
     }
-    const EventHandler=(event)=>{
+    const EventHandler=async (event)=>{
         event.preventDefault();
+        const expenceData={
+            money:money,
+            description:description,
+            category:category
+        }
         props.onAdd(money,description,category);
+        axios.post("https://add-movies-c908f-default-rtdb.firebaseio.com/expences.json",expenceData)
+        .then((res)=>{
+            
+        })
+        
         setMoney("");
         setDescription('');
         setCategory('');
