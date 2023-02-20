@@ -1,12 +1,14 @@
 import { useState,useRef,useContext } from 'react';
 import { useHistory ,Link} from 'react-router-dom';
-
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import classes from './SignUp.module.css';
-import AuthContext from './store/Context';
+import { AuthAction } from './store/Context';
 
 const SignUp= () => {
-  const Authcntx=useContext(AuthContext);
-  const userLoggin=Authcntx.isLoggedIn;
+
+  const dispatch=useDispatch();
+  const userLoggin=useSelector(state=>state.auth.isAuthenticated)
   const history=useHistory();
   const emailInputRef=useRef();
   const passwordInputRef=useRef();
@@ -52,7 +54,8 @@ const SignUp= () => {
           })
         }
       }).then((data)=>{
-        Authcntx.logIn(data.idToken)
+        localStorage.setItem('token',data.idToken);
+        
         history.replace('/profile')
       })
       .catch((err)=>{

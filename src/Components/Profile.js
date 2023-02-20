@@ -1,10 +1,12 @@
 import classes from './Profile.module.css';
 import {Link,useHistory} from 'react-router-dom';
-import { useContext } from 'react';
-import AuthContext from './store/Context';
+import { useDispatch } from 'react-redux';
+
+import {AuthAction} from './store/Context';
 const Profile=()=>{
-  const Authcntx=useContext(AuthContext);
+  
   const history=useHistory();
+  const dispatch=useDispatch();
   const EventHandler=()=>{
     const token=localStorage.getItem('token');
     console.log(token);
@@ -32,14 +34,14 @@ const Profile=()=>{
               })
             }
           }).then((data)=>{
-            Authcntx.logIn(data.idToken)
+            
             history.replace('/profile')
           })
           .catch((err)=>{
             alert(err.message)
           })
   }
-    return(
+    return( 
     <section >
       <h1>Expence Tracker</h1>
       <Link to='/details'>

@@ -3,6 +3,9 @@ import {usestate,useEffect, useState} from 'react';
 import axios from 'axios';
 const ExpenseList=(props)=>{
     const[value,setValue]=useState([]);
+    
+  
+ 
     axios.get("https://add-movies-c908f-default-rtdb.firebaseio.com/expences.json")
     .then((res)=>{
          const fetch=[];

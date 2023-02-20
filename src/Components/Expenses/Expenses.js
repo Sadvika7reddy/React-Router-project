@@ -5,6 +5,9 @@ const Expenses=(props)=>{
     const [money,setMoney]=useState('');
     const [description,setDescription]=useState('');
     const [category,setCategory]=useState('');
+    
+   
+   
     const ExecuteMoney=(event)=>{
         setMoney(event.target.value)
     }
@@ -48,7 +51,7 @@ const Expenses=(props)=>{
                 <input type='text' value={category} onChange={ExecuteCategory}/><br/>
                 &nbsp;
             </div>
-            <button type='submit'>Submit</button>
+            <button type='submit' >Submit</button>
         </form>
     )
 }
