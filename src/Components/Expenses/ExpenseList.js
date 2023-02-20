@@ -4,7 +4,13 @@ import axios from 'axios';
 const ExpenseList=(props)=>{
     const[value,setValue]=useState([]);
     
-  
+    let totalAmount=0;
+    value.forEach(item=>{
+        totalAmount=totalAmount+Number(item.money);
+        
+  })
+
+ 
  
     axios.get("https://add-movies-c908f-default-rtdb.firebaseio.com/expences.json")
     .then((res)=>{
@@ -29,8 +35,21 @@ const ExpenseList=(props)=>{
         })
 
     }
+    
+ function exportUserInfo(userInfo) {
+    const fileData = JSON.stringify(userInfo);
+    const blob = new Blob([fileData], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.download = "user-info";
+    link.href = url;
+    link.click();
+  }
+  
+  
     return(
         <div>
+            {totalAmount>1000&&<button onClick={()=>exportUserInfo(value)}>button</button>}
             <ul className={classes.list}>
             {value.map((user)=>(
                 <li key={user.id} className={classes.p}>
@@ -43,4 +62,4 @@ const ExpenseList=(props)=>{
         </div>
     )
 }
-export default ExpenseList; 
+export default ExpenseList;  

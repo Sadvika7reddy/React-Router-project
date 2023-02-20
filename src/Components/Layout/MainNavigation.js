@@ -9,7 +9,7 @@ const MainNavigation=()=>{
  
   const history=useHistory();
   const logoutHandler=()=>{
-   dispatch(AuthAction.logout())
+   localStorage.removeItem('token')
     history.replace('/')
 
   }
