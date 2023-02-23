@@ -38,17 +38,17 @@ const Expenses=(props)=>{
         <form className={classes.auth} onSubmit={EventHandler}>
             <div>
             <label>Money</label>
-            <input type='number' value={money} onChange={ExecuteMoney}/><br/>
+            <input type='number' value={money} id="mon"onChange={ExecuteMoney}/><br/>
             &nbsp;
             </div>
             <div>
                 <label>Description</label>
-                <input type='text' value={description} onChange={ExecuteDescription}/><br/>
+                <input type='text' value={description} id='des' onChange={ExecuteDescription}/><br/>
                 &nbsp;
             </div>
             <div>
                 <label>Category</label>
-                <input type='text' value={category} onChange={ExecuteCategory}/><br/>
+                <input type='text' value={category} id="cat"onChange={ExecuteCategory}/><br/>
                 &nbsp;
             </div>
             <button type='submit' >Submit</button>

@@ -28,11 +28,10 @@ const ExpenseList=(props)=>{
       let res=await axios.delete(`https://add-movies-c908f-default-rtdb.firebaseio.com/expences/${id}.json`) 
     }
     const editHandler=async (id,money,description,category)=>{
-        let res=await axios.put(`https://add-movies-c908f-default-rtdb.firebaseio.com/expences/${id}.json`,{
-            money:money,
-            description:description,
-            category:category
-        })
+                document.getElementById('mon').value =money;
+                document.getElementById('cat').value = category;
+                document.getElementById('des').value =description;
+        deleteHandler(id);
 
     }
     
@@ -49,7 +48,7 @@ const ExpenseList=(props)=>{
   
     return(
         <div>
-            {totalAmount>1000&&<button onClick={()=>exportUserInfo(value)}>button</button>}
+            {totalAmount>1000&&<button style={{background: "green"}} onClick={()=>exportUserInfo(value)}>Extract files</button>}
             <ul className={classes.list}>
             {value.map((user)=>(
                 <li key={user.id} className={classes.p}>
