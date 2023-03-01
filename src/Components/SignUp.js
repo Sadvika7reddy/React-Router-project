@@ -21,7 +21,7 @@ const SignUp= () => {
     event.preventDefault();
     const enteredEmail=emailInputRef.current.value;
     const enteredPassword=passwordInputRef.current.value;
-    
+    localStorage.setItem('email',enteredEmail)
     let url;
     if(isLogin){
       url='https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCewUWbgztJYjhsb5UEmf3Ni6T_ehpNmXQ';
@@ -54,7 +54,8 @@ const SignUp= () => {
           })
         }
       }).then((data)=>{
-        localStorage.setItem('token',data.idToken);
+  
+        dispatch(AuthAction.login(data.idToken))
         
         history.replace('/profile')
       })

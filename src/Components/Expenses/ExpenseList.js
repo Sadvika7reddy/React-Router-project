@@ -10,9 +10,11 @@ const ExpenseList=(props)=>{
         
   })
 
+  const userEmail=localStorage.getItem('email');
+  const user=userEmail.replace('.','q');
+  const users=user.replace('@','s')
  
- 
-    axios.get("https://add-movies-c908f-default-rtdb.firebaseio.com/expences.json")
+    axios.get(`https://add-movies-c908f-default-rtdb.firebaseio.com/${users}.json`)
     .then((res)=>{
          const fetch=[];
          for(let key in res.data){
@@ -24,8 +26,11 @@ const ExpenseList=(props)=>{
          setValue(fetch)
     })
     const deleteHandler=async (id)=>{
+        const userEmail=localStorage.getItem('email');
+        const user=userEmail.replace('.','q');
+        const users=user.replace('@','s')
         
-      let res=await axios.delete(`https://add-movies-c908f-default-rtdb.firebaseio.com/expences/${id}.json`) 
+      let res=await axios.delete(`https://add-movies-c908f-default-rtdb.firebaseio.com/${users}/${id}.json`) 
     }
     const editHandler=async (id,money,description,category)=>{
                 document.getElementById('mon').value =money;

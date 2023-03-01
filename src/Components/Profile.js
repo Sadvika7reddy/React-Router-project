@@ -34,7 +34,7 @@ const Profile=()=>{
               })
             }
           }).then((data)=>{
-            
+            dispatch(AuthAction.login(data.idToken))
             history.replace('/profile')
           })
           .catch((err)=>{

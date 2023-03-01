@@ -25,7 +25,10 @@ const Expenses=(props)=>{
             category:category
         }
         props.onAdd(money,description,category);
-        axios.post("https://add-movies-c908f-default-rtdb.firebaseio.com/expences.json",expenceData)
+        const userEmail=localStorage.getItem('email');
+        const user=userEmail.replace('.','q');
+        const users=user.replace('@','s')
+        axios.post(`https://add-movies-c908f-default-rtdb.firebaseio.com/${users}.json`,expenceData)
         .then((res)=>{
            console.log(res.data.name); 
         })
