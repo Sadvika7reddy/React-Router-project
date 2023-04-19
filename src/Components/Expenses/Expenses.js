@@ -28,7 +28,7 @@ const Expenses=(props)=>{
         const userEmail=localStorage.getItem('email');
         const user=userEmail.replace('.','q');
         const users=user.replace('@','s')
-        axios.post(`https://add-movies-c908f-default-rtdb.firebaseio.com/${users}.json`,expenceData)
+        axios.post(`https://expence-tracker-ba033-default-rtdb.firebaseio.com/${users}.json`,expenceData)
         .then((res)=>{
            console.log(res.data.name); 
         })

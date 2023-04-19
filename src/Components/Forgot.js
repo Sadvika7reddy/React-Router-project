@@ -6,7 +6,7 @@ const Forgot=()=>{
         event.preventDefault();
         const enteredEmail=emailInputRef.current.value;
         
-        fetch('https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyCewUWbgztJYjhsb5UEmf3Ni6T_ehpNmXQ',{
+        fetch('https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyDTSjffJZrsozwNWNDOff6iopcFac65R-g',{
             method:'POST',
             body:JSON.stringify(
               {

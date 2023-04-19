@@ -14,7 +14,7 @@ const ExpenseList=(props)=>{
   const user=userEmail.replace('.','q');
   const users=user.replace('@','s')
  
-    axios.get(`https://add-movies-c908f-default-rtdb.firebaseio.com/${users}.json`)
+    axios.get(`https://expence-tracker-ba033-default-rtdb.firebaseio.com/${users}.json`)
     .then((res)=>{
          const fetch=[];
          for(let key in res.data){
@@ -30,7 +30,7 @@ const ExpenseList=(props)=>{
         const user=userEmail.replace('.','q');
         const users=user.replace('@','s')
         
-      let res=await axios.delete(`https://add-movies-c908f-default-rtdb.firebaseio.com/${users}/${id}.json`) 
+      let res=await axios.delete(`https://expence-tracker-ba033-default-rtdb.firebaseio.com/${users}/${id}.json`) 
     }
     const editHandler=async (id,money,description,category)=>{
                 document.getElementById('mon').value =money;
@@ -63,6 +63,10 @@ const ExpenseList=(props)=>{
                 </li>
             ))}
             </ul>
+            <div>
+                <h2 style={{color:"white"}}>Total Amount :${totalAmount}</h2>
+                
+            </div>
         </div>
     )
 }

@@ -24,10 +24,10 @@ const SignUp= () => {
     localStorage.setItem('email',enteredEmail)
     let url;
     if(isLogin){
-      url='https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCewUWbgztJYjhsb5UEmf3Ni6T_ehpNmXQ';
+      url='https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDTSjffJZrsozwNWNDOff6iopcFac65R-g';
     }
     else{
-      url='https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCewUWbgztJYjhsb5UEmf3Ni6T_ehpNmXQ'
+      url='https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDTSjffJZrsozwNWNDOff6iopcFac65R-g'
     }
       fetch(url,{
         method:'POST',
