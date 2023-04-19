@@ -1,61 +1,165 @@
-import classes from './Expenses.module.css';
-import {useState} from 'react';
-import axios from 'axios';
-const Expenses=(props)=>{
-    const [money,setMoney]=useState('');
-    const [description,setDescription]=useState('');
-    const [category,setCategory]=useState('');
-    
-   
-   
-    const ExecuteMoney=(event)=>{
-        setMoney(event.target.value)
-    }
-    const ExecuteDescription=(event)=>{
-        setDescription(event.target.value)
-    }
-    const ExecuteCategory=(event)=>{
-        setCategory(event.target.value);
-    }
-    const EventHandler=async (event)=>{
-        event.preventDefault();
-        const expenceData={
-            money:money,
-            description:description,
-            category:category
-        }
-        props.onAdd(money,description,category);
-        const userEmail=localStorage.getItem('email');
-        const user=userEmail.replace('.','q');
-        const users=user.replace('@','s')
-        axios.post(`https://expence-tracker-ba033-default-rtdb.firebaseio.com/${users}.json`,expenceData)
-        .then((res)=>{
-           console.log(res.data.name); 
+import classes from "./Expenses.module.css";
+import { useRef, useState } from "react";
+import ExpenseList from "./ExpenseList";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { expActions } from "../../store/ExpenseRedux";
+import ToggleButton from "../../UI/ToggleButton";
+const Expenses = (props) => {
+  const amountInputRef = useRef();
+  const descriptionInputRef = useRef();
+  const categoryInputRef = useRef();
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [id, setId] = useState("");
+  const dispatch = useDispatch();
+  const expensesRedux = useSelector((state) => state.exp.expenses);
+  const userId = useSelector((state) => state.auth.userId);
+  const totalAmount = useSelector((state) => state.exp.totalAmount);
+  const isDark = useSelector((state) => state.theme.dark);
+  const submitHandler = (event) => {
+    event.preventDefault();
+    const amount = amountInputRef.current.value;
+    const description = descriptionInputRef.current.value;
+    const category = categoryInputRef.current.value;
+    const expense = {
+      amount: amount,
+      description: description,
+      category: category,
+    };
+    if (!isEditMode)
+      axios
+        .post(
+          `https://expence-tracker-ba033-default-rtdb.firebaseio.com/${userId}.json`,
+          expense
+        )
+        .then((res) => {
+          console.log(res.data.name);
+          dispatch(
+            expActions.addExpenseToList({
+              amount: amount,
+              description: description,
+              category: category,
+              id: res.data.name,
+            })
+          );
         })
-        
-        setMoney("");
-        setDescription('');
-        setCategory('');
-    }
-    return(
-        <form className={classes.auth} onSubmit={EventHandler}>
-            <div>
-            <label>Money</label>
-            <input type='number' value={money} id="mon"onChange={ExecuteMoney}/><br/>
-            &nbsp;
+        .catch((err) => alert(err));
+    else if (isEditMode)
+      axios
+        .put(
+          `https://expence-tracker-ba033-default-rtdb.firebaseio.com/${userId}/${id}.json`,
+          expense
+        )
+
+        .then((res) => {
+          console.log(res.data);
+          dispatch(
+            expActions.updateExistingExpense({
+              amount: Number(res.data.amount),
+              description: res.data.description,
+              category: res.data.category,
+              id: id,
+            })
+          );
+        })
+        .catch((err) => alert(err));
+    setIsEditMode(false);
+  };
+  const editHandler = (expElement) => {
+    amountInputRef.current.value = expElement.amount;
+    descriptionInputRef.current.value = expElement.description;
+    categoryInputRef.current.value = expElement.category;
+    setIsEditMode(true);
+    setId(expElement.id);
+  };
+  const downloadHandler = () => {
+    let blob = new Blob([makeCSV(expensesRedux)]);
+    let file = URL.createObjectURL(blob);
+    let a = document.createElement("a");
+    a.download = "expenses.csv";
+    a.href = file;
+    a.click();
+  };
+  function makeCSV(expenses) {
+    let arr = [];
+
+    expenses.forEach((expense) => {
+      let expenseArr = [];
+      expenseArr.push(expense.amount);
+      expenseArr.push(expense.category);
+      expenseArr.push(expense.description);
+
+      arr.push(expenseArr);
+    });
+    return arr.map((r) => r).join("\n");
+  }
+  const expensee = expensesRedux.map((expElement) => (
+    <ExpenseList
+      amount={expElement.amount}
+      description={expElement.description}
+      category={expElement.category}
+      id={expElement.id}
+      onEdit={() => {
+        editHandler(expElement);
+      }}
+    />
+  ));
+
+  return (
+    <>
+      <div className={classes.mainDiv}>
+        <div className={classes.div}>
+          <h1 className={classes.h1}>
+            Your Expense{" "}
+            <div className={classes.totalAmount}> Rs.{totalAmount}</div>
+          </h1>
+
+          <form onSubmit={submitHandler}>
+            <div className={classes.form}>
+              <div className={classes.description}>
+                <div>
+                  <label htmlFor="money">Amount</label>
+                </div>
+                <input type="text" id="money" ref={amountInputRef} />
+              </div>
+              <div className={classes.description}>
+                <div>
+                  <label htmlFor="description">Description</label>
+                </div>
+                <input type="text" id="decsription" ref={descriptionInputRef} />
+              </div>
+              <div className={classes.description}>
+                <div>
+                  <label htmlFor="category">Category</label>
+                </div>
+                <select id="category" ref={categoryInputRef}>
+                  <option value="food">food</option>
+                  <option value="petrol">petrol</option>
+                  <option value="salary">salary</option>
+                  <option value="home appliance">home appliance</option>
+                  <option value="education">education</option>
+                  <option value="food">movies</option>
+                  <option value="food">others....</option>
+                </select>
+              </div>
             </div>
+
             <div>
-                <label>Description</label>
-                <input type='text' value={description} id='des' onChange={ExecuteDescription}/><br/>
-                &nbsp;
+              <button className={classes.actions} type="submit">
+                {isEditMode ? "Update" : "Add Expense"}
+              </button>
             </div>
-            <div>
-                <label>Category</label>
-                <input type='text' value={category} id="cat"onChange={ExecuteCategory}/><br/>
-                &nbsp;
-            </div>
-            <button type='submit' >Submit</button>
-        </form>
-    )
-}
+          </form>
+          
+        </div>
+        <div className={`${classes.listAndButton} ${isDark && classes.dark}`}>
+          <ul>{expensee}</ul>
+          {totalAmount>1000&&<button className={classes.download} onClick={downloadHandler}>
+            Download File
+          </button>}
+        </div>
+      </div>
+    </>
+  );
+};
 export default Expenses;

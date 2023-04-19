@@ -8,15 +8,30 @@ import Details from "./Components/Details";
 import Forgot from "./Components/Forgot";
 import Expenses from './Components/Expenses/Expenses'
 import ExpenseList from "./Components/Expenses/ExpenseList";
-
+import { useSelector,useDispatch } from "react-redux";
+import axios from "axios";
+import { authActions } from "./store/AuthRedux";
+import { expActions } from "./store/ExpenseRedux";
 function App() {
-  const [AppUsers,setAppUsers]=useState([]);
-  const AddHandler=(Money,Description,Category)=>{
-    setAppUsers((prevstate)=>{
-      return[...prevstate,{money:Money,description:Description,category:Category,id:Math.random().toString()}]
-    }
-
-  )} 
+  const dispatch = useDispatch();
+  dispatch(authActions.setIsAuth());
+  
+  const userId = useSelector((state) => state.auth.userId);
+  
+  axios
+    .get(
+      `https://expence-tracker-ba033-default-rtdb.firebaseio.com/${userId}.json`
+    )
+    .then((res) => {
+      let datas = res.data;
+      let expArray = [];
+      for (let id in datas) {
+        let expenses = datas[id];
+        expenses.id = id;
+        expArray.push(expenses);
+      }
+      dispatch(expActions.addExpense(expArray));
+    });
   return (
     <Layout>
       <Switch>
@@ -30,8 +45,8 @@ function App() {
           <Details/>
         </Route>
         <Route path='/expenses' exact>
-          <Expenses onAdd={AddHandler}/>
-          <ExpenseList users={AppUsers}/>
+          <Expenses/>
+          
         </Route>
         <Route path='/forgot' exact>
           <Forgot/>

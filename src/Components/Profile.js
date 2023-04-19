@@ -2,7 +2,7 @@ import classes from './Profile.module.css';
 import {Link,useHistory} from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
-import {AuthAction} from './store/Context';
+import { authActions } from '../store/AuthRedux';
 const Profile=()=>{
   
   const history=useHistory();
@@ -34,7 +34,7 @@ const Profile=()=>{
               })
             }
           }).then((data)=>{
-            dispatch(AuthAction.login(data.idToken))
+            dispatch(authActions.login(data.idToken))
             history.replace('/profile')
           })
           .catch((err)=>{

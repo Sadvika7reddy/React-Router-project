@@ -2,14 +2,14 @@ import { Link ,useHistory} from "react-router-dom"
 import classes from './MainNavigation.module.css';
 import { useContext } from "react";
 import { useSelector,useDispatch } from "react-redux";
-import { AuthAction } from "../store/Context";
+import { authActions} from "../../store/AuthRedux";
 const MainNavigation=()=>{
   const dispatch=useDispatch();
   const userLoggin=useSelector(state=>state.auth.isAuthenticated)
  
   const history=useHistory();
   const logoutHandler=()=>{
-   dispatch(AuthAction.logout())
+   dispatch(authActions.logout())
     history.replace('/')
 
   }

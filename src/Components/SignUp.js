@@ -3,7 +3,7 @@ import { useHistory ,Link} from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import classes from './SignUp.module.css';
-import { AuthAction } from './store/Context';
+import { authActions } from '../store/AuthRedux';
 
 const SignUp= () => {
 
@@ -21,7 +21,7 @@ const SignUp= () => {
     event.preventDefault();
     const enteredEmail=emailInputRef.current.value;
     const enteredPassword=passwordInputRef.current.value;
-    localStorage.setItem('email',enteredEmail)
+    
     let url;
     if(isLogin){
       url='https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDTSjffJZrsozwNWNDOff6iopcFac65R-g';
@@ -55,8 +55,8 @@ const SignUp= () => {
         }
       }).then((data)=>{
   
-        dispatch(AuthAction.login(data.idToken))
-        
+        dispatch(authActions.login(data.idToken))
+        dispatch(authActions.setUserId(enteredEmail));
         history.replace('/profile')
       })
       .catch((err)=>{
